@@ -182,27 +182,6 @@ BOOL Initialize() {
 	return FALSE;
 }
 
-FARPROC GetAddress(const char* function_name) {
-#ifdef _WIN64
-	PPEB lpPeb = (PPEB)__readgsqword(0x60);
-#else
-	PPEB lpPeb = (PPEB)__readfsdword(0x30);
-#endif
-
-	PLIST_ENTRY pListHead = &lpPeb->Ldr->InMemoryOrderModuleList;
-	PLIST_ENTRY pListEntry = pListHead->Flink;
-	while (pListEntry != pListHead) {
-		PLDR_DATA_TABLE_ENTRY pModEntry = CONTAINING_RECORD(pListEntry, LDR_DATA_TABLE_ENTRY, InMemoryOrderLinks);
-		if (pModEntry->FullDllName.Length) {
-			FARPROC address = GetProcAddressAPI(LoadLibraryWAPI(pModEntry->FullDllName.Buffer), function_name);
-			if (address) {
-				return address;
-			}
-		}
-		pListEntry = pListEntry->Flink;
-	}
-	return nullptr;
-}
 
 int main()
 {
