@@ -6,3 +6,8 @@ Exercise of Writing Windows Shellcode in C:
 - support x86/x64
 
 Created By 3gstudent @3gstudent
+
+Learn form:
+
+http://bbs.pediy.com/showthread.php?t=203140
+
